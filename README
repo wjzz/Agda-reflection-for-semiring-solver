@@ -1,0 +1,13 @@
+A simple frontend to Adga stdlib's semiring solver (natural numbers only, at least now).
+
+Instead of writing the equation twice
+
+stdlib : ∀ m n → suc (m + n + (m + n)) ≡ m + m + suc (n + n)
+stdlib = solve 2 (λ m n → con 1 :+ (m :+ n :+ (m :+ n)) := m :+ m :+ (con 1 :+ (n :+ n))) refl
+
+the front-end allows one to write it once, as in
+
+notbad : ∀ m n → suc (m + n + (m + n)) ≡ m + m + suc (n + n)
+notbad = quoteGoal e in ring e refl refl refl refl
+
+and the reflection machinery builds the reflected structure behind the scenes.
