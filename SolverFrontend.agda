@@ -325,6 +325,21 @@ build-eq : {n : ℕ}
 
 build-eq e₁ e₂ ρ = psubst e₁ (vreverse ρ) , psubst e₂ (vreverse ρ)
 
+-- function copied from stdlib's Relation.Binary.Reflection
+-- 
+-- One can get this function by saying
+--   open Reflection setoid var ⟦_⟧ ⟦_⟧↓ (nf-sound ∘ normalise)
+--     public using (close; prove; solve) renaming (_⊜_ to _:=_)
+-- insteated of
+--   open Reflection setoid var ⟦_⟧ ⟦_⟧↓ (nf-sound ∘ normalise)
+--     public using (prove; solve) renaming (_⊜_ to _:=_)
+-- in the Algebra.RingSolver stdlib's module
+
+-- Applies the function to all possible "variables".
+
+close : ∀ {A : Set} n → N-ary n (Polynomial n) A → A
+close n f = f $ⁿ Data.Vec.map var (allFin n)
+
 -- curried version of build-eq
 
 build-eq-curry : {n : ℕ} → (lhs rhs : Polynomial n) 
