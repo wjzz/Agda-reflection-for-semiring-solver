@@ -72,3 +72,53 @@ notbad = quoteGoal e in ring e refl refl refl refl
 
 unsafe : ∀ m n → suc (m + n + (m + n)) ≡ m + m + suc (n + n)
 unsafe = quoteGoal e in solv' e refl
+
+-------------------------------
+--  More tests and examples  --
+-------------------------------
+
+ex-0 : ∀ m n → m + n ≡ n + m
+ex-0 = quoteGoal e in ring e refl refl refl refl
+
+ex-1 : ∀ m n k → m + n + (suc k) ≡ k + m + 1 + n
+ex-1 = quoteGoal e in ring e refl refl refl refl
+
+ex-3 : ∀ m → 5 * m ≡ m + m + m + m + m
+ex-3 = quoteGoal e in ring e refl refl refl refl
+
+-------------------------------------
+--  Examples that do not work yet  --
+-------------------------------------
+
+-- a shortcoming of the present approach: we do not deal with
+-- non-interpreted constants at all
+
+ex-2 : ℕ → ℕ
+ex-2 n = 213 where
+  -- wrong, the library doesn't allow non qualified names yet
+  
+  open import Data.List
+  open import Relation.Binary.PropositionalEquality
+
+  lemma : ∀ m → n + m ≡ m + n
+  lemma = quoteGoal e in {!e!} 
+          {-quoteGoal e in ring e refl refl refl refl
+                                        ||
+                                this precondition fails
+           -} 
+
+postulate
+  f : ℕ → ℕ
+
+-- this doesn't work
+-- ex-4 : ∀ n m → f n + f m ≡ f m + f n
+-- ex-4 = quoteGoal e in ring e refl refl refl refl
+
+
+-- ugly workaround. works, but we might have as well used the old solve function
+
+ex-5 : ∀ n m → f n + f m ≡ f m + f n
+ex-5 n m = lemma (f n) (f m) where
+
+  lemma : ∀ n m → n + m ≡ m + n
+  lemma = quoteGoal e in ring e refl refl refl refl
