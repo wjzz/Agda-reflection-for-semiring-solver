@@ -86,6 +86,14 @@ ex-1 = quoteGoal e in ring e refl refl refl refl
 ex-3 : ∀ m → 5 * m ≡ m + m + m + m + m
 ex-3 = quoteGoal e in ring e refl refl refl refl
 
+------------------
+--  Comparison  --
+------------------
+
+shuffle-test2 : (a b c : ℕ) → a + b + 2 + c + b ≡ 1 + b * 2 + (c + a) + 1
+shuffle-test2 = quoteGoal e in ring e refl refl refl refl
+
+
 -------------------------------------
 --  Examples that do not work yet  --
 -------------------------------------
@@ -122,3 +130,4 @@ ex-5 n m = lemma (f n) (f m) where
 
   lemma : ∀ n m → n + m ≡ m + n
   lemma = quoteGoal e in ring e refl refl refl refl
+
